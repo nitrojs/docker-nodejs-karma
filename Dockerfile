@@ -1,8 +1,9 @@
 FROM ubuntu:trusty
 
-MAINTAINER Nicola Molinari <emmenko@gmail.com>
+MAINTAINER Jesús Germade <jesus@germade.es>
 
 RUN apt-get update; \
+    apt-get install -y build-essential; \
     apt-get install -y git curl; \
     curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash -; \
     curl https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - ; \
