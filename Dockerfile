@@ -1,4 +1,4 @@
-FROM ubuntu:willy
+FROM ubuntu:wily
 
 MAINTAINER Jesús Germade <jesus@germade.es>
 
