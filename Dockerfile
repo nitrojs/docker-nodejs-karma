@@ -2,9 +2,8 @@ FROM ubuntu:trusty
 
 MAINTAINER Jesús Germade <jesus@germade.es>
 
-ENV DEBIAN_FRONTEND="noninteractive"
-
-RUN apt-get update; \
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections; \
+    apt-get update; \
     apt-get install -y build-essential; \
     apt-get install -y git curl; \
     curl -sL https://deb.nodesource.com/setup_4.x | sudo bash -; \
