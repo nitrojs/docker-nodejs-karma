@@ -2,6 +2,8 @@ FROM ubuntu:trusty
 
 MAINTAINER Jesús Germade <jesus@germade.es>
 
+ENV DEBIAN_FRONTEND="noninteractive"
+
 RUN apt-get update; \
     apt-get install -y build-essential; \
     apt-get install -y git curl; \
