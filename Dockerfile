@@ -10,7 +10,7 @@ RUN apt-get update; \
 
 RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - ; \
     sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list'; \
-    apt-get update && apt-get install -y --force-yes google-chrome-stable xvfb
+    apt-get update && apt-get install -y --force-yes google-chrome-stable firefox xvfb
 
 RUN npm install bower -g
 
