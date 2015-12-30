@@ -8,9 +8,9 @@ RUN apt-get update; \
       git \
       curl
 
-RUN curl -sL https://deb.nodesource.com/setup_4.x | -E bash -
+RUN curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
 
-RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - ; \
+RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - ; \
     sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/chrome.list'; \
 
 RUN apt-get update && apt-get install -y --force-yes google-chrome-stable nodejs xvfb
