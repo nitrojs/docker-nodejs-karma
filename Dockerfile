@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --force-yes google-chrome-stable firefo
 RUN npm install bower -g
 
 ENV DISPLAY :99
-ENV CHROME_BIN /usr/bin/google-chrome
+ENV CHROME_BIN /usr/bin/google-chrome-stable
 
 ADD xvfb.sh /etc/init.d/xvfb
 RUN chmod a+x /etc/init.d/xvfb
