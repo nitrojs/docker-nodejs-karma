@@ -1,4 +1,4 @@
-FROM debian:wily
+FROM debian:jessie
 
 MAINTAINER Jesús Germade <jesus@germade.es>
 
