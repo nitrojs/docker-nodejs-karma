@@ -1,28 +1,23 @@
-FROM node:4-wheezy
+FROM ubuntu:trusty
 
-MAINTAINER Jesús Germade <jesus@germade.es>
+MAINTAINER Jesús Germade <jesus@aplazame.com>
 
-RUN apt-get update; \
-    apt-get install -y --force-yes \
-      build-essential \
-      git \
-      curl
-
-RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - ; \
-    sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list'; \
-    apt-get update && apt-get install -y --force-yes google-chrome-stable xvfb
-
-RUN npm install bower -g
-
-ENV DISPLAY :99
-ENV CHROME_BIN /usr/bin/google-chrome
+RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections; \
+    apt-get update; \
+    apt-get install -y build-essential; \
+    apt-get install -y git curl python; \
+    curl -sL https://deb.nodesource.com/setup_4.x | sudo bash -; \
+    curl https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - ; \
+    sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'; \
+    apt-get update && apt-get install -y google-chrome-stable nodejs Xvfb; \
+    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*; \
+    npm install bower -g; \
+    npm install phantomjs -g
 
 ADD xvfb.sh /etc/init.d/xvfb
-RUN chmod a+x /etc/init.d/xvfb
-
 ADD entrypoint.sh /entrypoint.sh
-RUN chmod a+x /entrypoint.sh
 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ENV DISPLAY :99.0
+ENV CHROME_BIN /usr/bin/google-chrome
 
 ENTRYPOINT ["/entrypoint.sh"]
