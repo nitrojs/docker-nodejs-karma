@@ -1,28 +1,47 @@
-FROM ubuntu:trusty
-
-MAINTAINER Jesús Germade <jesus@aplazame.com>
+FROM ubuntu:xenial
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections; \
     apt-get update; \
-    apt-get install -y build-essential; \
-    apt-get install -y git curl python; \
-    apt-get install -y xvfb firefox; \
-    curl -sL https://deb.nodesource.com/setup_6.x | sudo bash -; \
-    curl https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - ; \
-    sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'; \
-    apt-get update && apt-get install -y google-chrome-stable nodejs Xvfb; \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*; \
-    npm install phantomjs -g 
+    apt-get install -y \
+        git \
+        curl \
+        wget \
+        software-properties-common \
+        build-essential \
+        python \
+        python-pip \
+        xvfb;
 
-ADD xvfb.sh /etc/init.d/xvfb
-RUN chmod a+x /etc/init.d/xvfb
+RUN pip install awscli;
 
-ADD entrypoint.sh /entrypoint.sh
-RUN chmod a+x /entrypoint.sh
+RUN wget https://github.com/bep/s3deploy/releases/download/v1.1/s3deploy_1.1_Linux-64bit.deb; \
+        dpkg -i s3deploy_1.1_Linux-64bit.deb; \
+        rm s3deploy_1.1_Linux-64bit.deb;
+
+RUN wget -q -O - https://deb.nodesource.com/setup_8.x | bash -; \
+        apt-get update && apt-get install -y nodejs; \
+    node -v; \
+    npm -v;
+
+RUN npm install -g bower; \
+    npm install -g phantomjs-prebuilt --upgrade --unsafe-perm;
+
+RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -; \
+    echo 'deb http://dl.google.com/linux/chrome/deb/ stable main' > /etc/apt/sources.list.d/google-chrome.list; \
+    apt-get update; \
+    apt-get install -y \
+        google-chrome-stable \
+        firefox;
+
+RUN wget -q -O - https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -; \
+    echo 'deb https://dl.yarnpkg.com/debian/ stable main' > /etc/apt/sources.list.d/yarn.list; \
+    apt-get update; apt-get install -y yarn;
+
 
 ENV DISPLAY :99.0
-
 ENV CHROME_BIN /usr/bin/google-chrome
-ENV FIREFOX_BIN /usr/bin/firefox
+
+ADD xvfb.sh /etc/init.d/xvfb
+ADD entrypoint.sh /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
