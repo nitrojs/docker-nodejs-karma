@@ -9,9 +9,11 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
         build-essential \
         xvfb;
 
-RUN curl -sL https://deb.nodesource.com/setup_10.x | -E bash -; \
-        apt-get update && apt-get install -y nodejs; \
-    node -v; \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -; \
+        apt-get update; \
+        apt-get install -y nodejs;
+
+RUN node -v; \
     npm -v;
 
 RUN wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | apt-key add -; \
