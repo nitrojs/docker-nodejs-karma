@@ -1,8 +1,7 @@
 A [Docker](https://www.docker.com/) container with
 
-- node 8.x
+- node 10.x
 - chrome for karma headless testing
-- bower is included
 
 
 ```bash
