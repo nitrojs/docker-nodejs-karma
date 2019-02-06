@@ -9,8 +9,8 @@ RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selectio
         build-essential \
         xvfb;
 
-RUN curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -; \
-        apt-get update && sudo apt-get install -y nodejs; \
+RUN curl -sL https://deb.nodesource.com/setup_10.x | -E bash -; \
+        apt-get update && apt-get install -y nodejs; \
     node -v; \
     npm -v;
 
